@@ -11,8 +11,8 @@ var index_default = {
     if (country != null && country in countryMap) {
       const url = countryMap[country];
 		const baseUrl = new URL(request.url);
-      console.log(request.url);
-		if (url.pathname.startsWith('/individuals')) {
+      console.log(baseUrl);
+		if (baseUrl.pathname.startsWith('/individuals')) {
       return new Response('Response for specific path');
     }
     return new Response('Hello World');

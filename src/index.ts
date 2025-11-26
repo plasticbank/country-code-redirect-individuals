@@ -1,23 +1,32 @@
-export default {
-	async fetch(request): Promise<Response> {
-		/**
-		 * A map of the URLs to redirect to
-		 * @param {Object} countryMap
-		 */
-		const countryMap = {
-			US: "https://example.com/us",
-			EU: "https://example.com/eu",
-		};
-
-		// Use the cf object to obtain the country of the request
-		// more on the cf object: https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties
-		const country = request.cf.country;
-
-		if (country != null && country in countryMap) {
-			const url = countryMap[country];
-			return Response.redirect(url);
-		} else {
-			return fetch(request);
-		}
-	},
-} satisfies ExportedHandler;
+// src/index.ts
+var index_default = {
+  async fetch(request) {
+    const countryMap = {
+      PH: "https://uat.plasticbank.com/ph/individuals",
+      ID: "https://uat.plasticbank.com/id/individuals",
+      US: "https://uat.plasticbank.com/us/individuals",
+      CA: "https://uat.plasticbank.com/ca/individuals"
+    };
+    const country = request.cf.country;
+    if (country != null && country in countryMap) {
+      const url = countryMap[country];
+		const baseUrl = new URL(request.url);
+      console.log(request.url);
+		if (url.pathname.startsWith('/individuals')) {
+      return new Response('Response for specific path');
+    }
+    return new Response('Hello World');
+      if(request.url == url){
+        return fetch(request);
+      } else {
+        return Response.redirect(url); //test
+      }
+    } else {
+      return fetch(request);
+    }
+  }
+};
+export {
+  index_default as default
+};
+//# sourceMappingURL=index.js.map
